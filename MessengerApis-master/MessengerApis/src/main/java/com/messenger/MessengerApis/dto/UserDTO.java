@@ -13,7 +13,27 @@ public class UserDTO {
 	
 	String correo;
 	
+	String confCode;
 	
+	boolean confStatus;
+	
+	
+	public String getConfCode() {
+		return confCode;
+	}
+
+	public void setConfCode(String confCode) {
+		this.confCode = confCode;
+	}
+
+	public boolean isConfStatus() {
+		return confStatus;
+	}
+
+	public void setConfStatus(boolean confStatus) {
+		this.confStatus = confStatus;
+	}
+
 	public UserDTO(Long id, String nombre, String password, String correo) {
 		this();
 		this.id = id;
@@ -65,6 +85,9 @@ public class UserDTO {
 		user.setNombre(userEntity.getNombre());
 		user.setId(userEntity.getId());
 		user.setPassword(userEntity.getPassword());
+		user.setConfStatus(userEntity.isConfStatus());
+		user.setConfCode(userEntity.getConfCode());
+		
 		
 		return user;
 	}
@@ -77,6 +100,8 @@ public class UserDTO {
 		user.setId(userDTO.getId());
 		user.setNombre(userDTO.getNombre());
 		user.setPassword(userDTO.getPassword());
+		user.setConfStatus(userDTO.isConfStatus());
+		user.setConfCode(userDTO.getConfCode());
 		return user;
 		
 	}
