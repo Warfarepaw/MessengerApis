@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.messenger.MessengerApis.Service.MailService;
 import com.messenger.MessengerApis.Service.UserService;
 import com.messenger.MessengerApis.dto.UserDTO;
 
@@ -23,6 +24,9 @@ public class MessengerController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	MailService mailService;
 	
 	
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +53,7 @@ public class MessengerController {
 		return "hola mundo";
 	}
 	
+	
 	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<UserDTO> getUsuario()
 	{
@@ -57,6 +62,30 @@ public class MessengerController {
 		return userService.getUsers();
 	}
 	
+	
+	@RequestMapping(value = "/email/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void saveUsuario(@PathVariable("email") String email)
+	{
+		logger.info("Guardado de usaurio por {}", UserDTO.class);
+		userService.getUserByEmail(email);
+		
+	}
+	
+	@RequestMapping(value = "/email/{email}/{verificationCode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String verifyUsuario(@PathVariable("email") String email, @PathVariable("verificationCode") String verCode)
+	{
+		logger.info("verificacion de correo", UserDTO.class);
+		if(userService.verifyUser(email, verCode)) 
+		{
+			return "El usuario se valido exitosamente";
+		}else 
+		{
+			return "El usuario no pudo ser validado";
+		}
+		
+
+		
+	}
 	
 	
 	
