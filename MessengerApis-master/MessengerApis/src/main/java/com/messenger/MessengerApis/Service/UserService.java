@@ -37,15 +37,31 @@ public class UserService {
 		return userDTO;
 	}
 	
-	public void saveUser(UserDTO userDTO) 
+	public boolean saveUser(UserDTO userDTO) 
 	{
 		
+		
+		UserDTO DBuserDTO = new UserDTO();
 		logger.info("Request para el id del usuario");
 		int Random =(int )(Math.random() * 1000000 + 100000);
 		userDTO.setConfCode(Integer.toString(Random));
 		userDTO.setConfStatus(false);
-		UserEntity userEntity = userDTO.createEntity(userDTO);
-		userRepo.save(userEntity);
+		
+		DBuserDTO = DBuserDTO.valueOf(userRepo.findBycorreo(userDTO.getCorreo()));
+
+		
+		if(DBuserDTO==null) 
+		{
+			UserEntity userEntity = userDTO.createEntity(userDTO);
+			userRepo.save(userEntity);
+			return true;
+		}else 
+		{
+			return false;
+		}
+			
+		
+		
 		
 	}
 

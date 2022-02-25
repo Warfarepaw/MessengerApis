@@ -39,11 +39,17 @@ public class MessengerController {
 	
 	
 	@RequestMapping(value = "/users", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void saveUsuario(@RequestBody UserDTO userDTO)
+	public String saveUsuario(@RequestBody UserDTO userDTO)
 	{
 		
 		logger.info("Guardado de usaurio por {}", UserDTO.class);
-		userService.saveUser(userDTO);
+		if(userService.saveUser(userDTO)) 
+		{
+			return "El usuario fue guardado existosamente";
+		}else 
+		{
+			return "El correo ya fue registrado";
+		}
 		
 	}
 	
